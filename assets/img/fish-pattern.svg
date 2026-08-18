@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="220" viewBox="0 0 360 220">
+  <defs>
+    <g id="sardina" fill="none" stroke="#C6A15B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 30 C 40 8, 120 8, 150 30 C 120 52, 40 52, 8 30 Z"/>
+      <path d="M150 30 L 172 16 L 168 30 L 172 44 Z"/>
+      <circle cx="30" cy="28" r="2.4" fill="#C6A15B" stroke="none"/>
+      <path d="M52 18 C 60 30, 60 30, 52 42"/>
+      <path d="M70 15 C 80 30, 80 30, 70 45"/>
+      <path d="M90 15 C 100 30, 100 30, 90 45"/>
+      <path d="M110 17 C 118 30, 118 30, 110 43"/>
+      <path d="M40 30 L 132 30" stroke-dasharray="2 5" opacity="0.7"/>
+    </g>
+  </defs>
+  <use href="#sardina" x="0" y="0"/>
+  <use href="#sardina" x="182" y="90" transform="scale(-1,1) translate(-360,0)"/>
+  <use href="#sardina" x="0" y="150"/>
+  <use href="#sardina" x="182" y="-40" transform="scale(-1,1) translate(-360,0)"/>
+</svg>

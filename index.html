@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Il Posto Giusto di Aversa — Ristorante di pesce &amp; pizzeria</title>
+  <meta name="description" content="Ristorante di pesce ad Aversa (CE): crudi, tartare, polpo, pizza. Pescato fresco al banco, sala elegante, tavoli all'aperto. Prenota: 081 424 9489.">
+  <link rel="canonical" href="https://ilpostogiustodiaversa.it/">
+  <meta name="theme-color" content="#14100C">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="restaurant">
+  <meta property="og:site_name" content="Il Posto Giusto di Aversa">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:title" content="Il Posto Giusto di Aversa">
+  <meta property="og:description" content="Ristorante di pesce ad Aversa: crudi, tartare, polpo, pizza. Pescato fresco al banco.">
+  <meta property="og:url" content="https://ilpostogiustodiaversa.it/">
+  <meta property="og:image" content="https://ilpostogiustodiaversa.it/assets/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Il Posto Giusto di Aversa">
+  <meta name="twitter:description" content="Ristorante di pesce ad Aversa: crudi, tartare, polpo, pizza.">
+  <meta name="twitter:image" content="https://ilpostogiustodiaversa.it/assets/img/og.jpg">
+
+  <link rel="icon" href="assets/img/logo.webp" type="image/webp">
+  <link rel="apple-touch-icon" href="assets/img/logo.webp">
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="preload" as="image" href="assets/img/hero.webp">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <a class="brand-lock" href="#top" aria-label="Il Posto Giusto di Aversa">
+      <img src="assets/img/logo.webp" alt="Logo Il Posto Giusto di Aversa" width="42" height="42">
+      <span>
+        <b>Il Posto Giusto</b>
+        <span>di Aversa</span>
+      </span>
+    </a>
+    <nav class="nav-desktop" aria-label="Principale">
+      <a href="#specialita">Specialità</a>
+      <a href="#menu">Menu</a>
+      <a href="#ambiente">Ambiente</a>
+      <a href="#chef">Lo Chef</a>
+      <a href="#contatti">Contatti</a>
+    </nav>
+    <a class="btn btn--gold header-cta" href="#prenota">Prenota un tavolo</a>
+    <button class="burger" id="burger" aria-label="Apri il menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="scrim" id="scrim"></div>
+  <nav class="mobile-menu" id="mobile-menu" aria-label="Menu di navigazione">
+    <a href="#specialita">Specialità</a>
+    <a href="#menu">Menu</a>
+    <a href="#ambiente">Ambiente</a>
+    <a href="#chef">Lo Chef</a>
+    <a href="#prenota">Prenota</a>
+    <a href="#contatti">Contatti</a>
+  </nav>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <img class="hero__img" src="assets/img/hero.webp" alt="Sala interna del ristorante con soffitto dorato" width="1200" height="1600" fetchpriority="high">
+      <div class="wrap hero__inner">
+        <div class="hero__tag">
+          <span class="status is-closed" role="status">
+            <span class="dot"></span><span class="status__label">…</span>
+          </span>
+        </div>
+        <h1 id="hero-name">Il Posto Giusto<em>di Aversa</em></h1>
+        <p class="hero__cuisine" id="hero-cuisine"></p>
+        <p class="hero__hook" id="hero-hook"></p>
+        <div class="hero__actions">
+          <a class="btn btn--gold" id="cta-prenota-hero" href="#prenota">Prenota un tavolo</a>
+          <a class="btn btn--ghost" id="cta-chiama-hero" href="#">Chiama ora</a>
+        </div>
+        <p class="hero__meta" id="hero-rating"></p>
+      </div>
+    </section>
+
+    <!-- FACTS -->
+    <div class="facts">
+      <div class="wrap"><ul id="facts"></ul></div>
+    </div>
+
+    <!-- SPECIALITA -->
+    <section class="section fishbg" id="specialita">
+      <div class="wrap">
+        <div class="spec__head">
+          <span class="eyebrow">Dal banco al piatto</span>
+          <h2 class="section-title">Le nostre <em>specialità</em></h2>
+          <p class="lead">I piatti che i clienti nominano per primi. Crudi di mare, tartare e il pescato del giorno lavorato con semplicità.</p>
+        </div>
+        <div class="spec-scroller" id="spec-scroller"></div>
+        <p class="swipe-hint">← scorri per vederli tutti →</p>
+      </div>
+    </section>
+
+    <!-- MENU -->
+    <section class="section section--tight" id="menu">
+      <div class="wrap">
+        <span class="eyebrow">Il menu</span>
+        <h2 class="section-title">Cucina di <em>mare</em>, e non solo</h2>
+        <p class="lead">Pescato fresco esposto all'ingresso, crudi, primi di personalità e pizza nel forno a legna. I prezzi possono variare in base al pescato del giorno.</p>
+      </div>
+      <nav class="menu-nav" aria-label="Categorie del menu">
+        <div class="wrap"><ul id="menu-nav-list"></ul></div>
+      </nav>
+      <div class="wrap">
+        <div id="menu-cats"></div>
+        <div class="menu-notes" id="menu-notes"></div>
+        <div id="fixed-menus"></div>
+      </div>
+    </section>
+
+    <!-- AMBIENTE -->
+    <section class="section fishbg" id="ambiente">
+      <div class="wrap">
+        <span class="eyebrow">L'ambiente</span>
+        <h2 class="section-title">Ogni sala, una <em>bellezza diversa</em></h2>
+        <p class="lead">Marmo, ottone e legno. Dal banco del pesce vivo all'ingresso ai tavoli all'aperto, fino alla sala privata per gli eventi.</p>
+        <div class="gallery" id="gallery" style="margin-top:var(--s6)"></div>
+      </div>
+    </section>
+
+    <!-- CHEF -->
+    <section class="section" id="chef">
+      <div class="wrap chef">
+        <div class="chef__img" id="chef-img"></div>
+        <div>
+          <span class="eyebrow">La cucina</span>
+          <p class="chef__role" id="chef-role" style="margin-top:1rem"></p>
+          <p class="chef__name" id="chef-name"></p>
+          <p class="lead" id="chef-text" style="max-width:56ch"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRENOTA -->
+    <section class="section fishbg" id="prenota">
+      <div class="wrap">
+        <span class="eyebrow">Prenotazioni</span>
+        <h2 class="section-title">Prenota il tuo <em>tavolo</em></h2>
+        <div class="book" style="margin-top:var(--s6)">
+          <form class="book__form" id="book-form" novalidate>
+            <div class="field">
+              <label for="f-nome">Nome e cognome</label>
+              <input type="text" id="f-nome" name="nome" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="f-tel">Telefono</label>
+              <input type="tel" id="f-tel" name="telefono" autocomplete="tel" inputmode="tel" required>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="f-persone">Persone</label>
+                <select id="f-persone" name="persone" required><option value="">—</option></select>
+              </div>
+              <div class="field">
+                <label for="f-orario">Orario</label>
+                <select id="f-orario" name="orario" required><option value="">—</option></select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="f-data">Data</label>
+              <input type="date" id="f-data" name="data" required>
+            </div>
+            <div class="field">
+              <label for="f-note">Note (facoltative)</label>
+              <textarea id="f-note" name="note" rows="2" placeholder="Allergie, seggiolone, occasione…"></textarea>
+            </div>
+            <button type="submit" class="btn btn--gold btn--block">Invia richiesta su WhatsApp</button>
+            <p class="form-msg" id="form-msg" role="status" aria-live="polite"></p>
+          </form>
+          <aside class="book__aside">
+            <p>Confermiamo la disponibilità in pochi minuti. Preferisci parlare con noi? Chiama o scrivici su WhatsApp.</p>
+            <div class="book__contact">
+              <a id="tel-link-aside" href="#" onclick="this.href=document.getElementById('tel-link').href">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h4l2 5-3 2a12 12 0 0 0 6 6l2-3 5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 2 6a2 2 0 0 1 2-2z"/></svg>
+                <span>Chiama il ristorante</span>
+              </a>
+              <a id="wa-aside" href="#" onclick="this.href=document.getElementById('wa-contact').href">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/><path d="M8.5 9c0 4 2.5 6.5 6.5 6.5 .8 0 1.2-.9.7-1.5l-1-1.2-1.7.6-1.4-1.4.6-1.7-1.2-1c-.6-.5-1.5-.1-1.5.7z" fill="currentColor" stroke="none"/></svg>
+                <span>Scrivici su WhatsApp</span>
+              </a>
+            </div>
+            <p style="margin-top:1.5rem;font-size:.85rem">Consegna a domicilio e asporto:</p>
+            <div class="hero__actions" id="delivery-actions" style="margin-top:.6rem"></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTATTI -->
+    <section class="section section--tight" id="contatti">
+      <div class="wrap">
+        <span class="eyebrow">Dove siamo</span>
+        <h2 class="section-title">Vieni a <em>trovarci</em></h2>
+        <div class="contact" style="margin-top:var(--s6)">
+          <div class="map-frame">
+            <iframe id="map-iframe" title="Mappa del ristorante" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <div>
+            <span class="status is-closed" role="status" style="margin-bottom:1rem">
+              <span class="dot"></span><span class="status__label">…</span>
+            </span>
+            <table class="hours-table"><tbody id="hours-table"></tbody></table>
+            <p id="hours-note" style="font-size:.82rem;color:var(--taupe);margin-top:.8rem;font-style:italic"></p>
+
+            <div class="contact-block">
+              <p><strong style="color:var(--cream)">Indirizzo</strong><br>
+                 <span id="addr"></span><br>
+                 <a id="addr-link" href="#" target="_blank" rel="noopener">Apri in Google Maps →</a></p>
+            </div>
+            <div class="contact-block">
+              <p><strong style="color:var(--cream)">Contatti</strong><br>
+                 Telefono: <a id="tel-link" href="#"></a><br>
+                 <a id="wa-contact" href="#" target="_blank" rel="noopener"></a></p>
+            </div>
+            <div class="socials" id="socials"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div style="display:flex;align-items:center;gap:1rem;justify-content:center">
+        <img src="assets/img/logo.webp" alt="Il Posto Giusto di Aversa" width="64" height="64">
+        <div style="text-align:left">
+          <p style="color:var(--cream);font-family:var(--f-display);font-size:1.2rem" id="foot-name"></p>
+          <p id="foot-addr"></p>
+        </div>
+      </div>
+      <p>© <span id="foot-year"></span> Il Posto Giusto di Aversa · Tutti i diritti riservati</p>
+    </div>
+  </footer>
+
+  <!-- STICKY BOTTOM BAR (mobile) -->
+  <nav class="bottom-bar" aria-label="Azioni rapide">
+    <a id="bar-call" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h4l2 5-3 2a12 12 0 0 0 6 6l2-3 5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 2 6a2 2 0 0 1 2-2z"/></svg>
+      Chiama
+    </a>
+    <a id="bar-wa" href="#" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/></svg>
+      WhatsApp
+    </a>
+    <a class="b-book" id="bar-book" href="#prenota">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+      Prenota
+    </a>
+  </nav>
+
+  <noscript>
+    <div style="padding:2rem;text-align:center;color:#F4EDE0;background:#14100C">
+      Per usare tutte le funzioni del sito attiva JavaScript. Prenotazioni al <b>081 424 9489</b>.
+    </div>
+  </noscript>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
