@@ -1,3 +1,4 @@
+[README.md](https://github.com/user-attachments/files/32174093/README.md)
 # Il Posto Giusto di Aversa — sito web
 
 Sito statico (HTML/CSS/JS), zero backend, pronto per GitHub Pages.
