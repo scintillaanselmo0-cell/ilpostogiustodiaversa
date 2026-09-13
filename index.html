@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="preload" as="image" href="assets/img/hero.webp">
+  <link rel="preload" as="image" href="assets/img/hero-video-poster.jpg">
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -72,7 +72,12 @@
 
     <!-- HERO -->
     <section class="hero">
-      <img class="hero__img" src="assets/img/hero.webp" alt="Sala interna del ristorante con soffitto dorato" width="1200" height="1600" fetchpriority="high">
+      <video class="hero__img hero__video" autoplay muted loop playsinline preload="auto"
+             poster="assets/img/hero-video-poster.jpg" aria-hidden="true">
+        <source src="assets/img/hero-video.webm" type="video/webm">
+        <source src="assets/img/hero-video.mp4" type="video/mp4">
+      </video>
+      <img class="hero__img hero__video-fallback" src="assets/img/hero.webp" alt="Sala interna del ristorante con soffitto dorato" width="1200" height="1600">
       <div class="wrap hero__inner">
         <div class="hero__tag">
           <span class="status is-closed" role="status">
