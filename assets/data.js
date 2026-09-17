@@ -243,7 +243,7 @@ const RISTORANTE = {
 
   /* --- SEO ---------------------------------------------------------------- */
   seo: {
-    title: "Il Posto Giusto di Aversa — Ristorante di pesce & pizzeria",
+    title: "Ristorante di Pesce & Pizzeria ad Aversa | Il Posto Giusto", // rispecchia <title> statico in index.html
     description: "Ristorante di pesce ad Aversa (CE): crudi, tartare, polpo, pizza. Pescato fresco al banco, sala elegante, tavoli all'aperto. Prenota: 081 424 9489.",
     url: "https://ilpostogiustodiaversa.it/", // [DA VERIFICARE] metta l'URL definitivo
     ogImage: "assets/img/og.jpg",

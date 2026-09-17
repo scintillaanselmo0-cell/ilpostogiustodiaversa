@@ -1,343 +1,44 @@
-/* =========================================================================
-   IL POSTO GIUSTO DI AVERSA — logica del sito
-   Legge tutto da data.js. Non serve modificare questo file per i contenuti.
-   ========================================================================= */
-(function () {
-  "use strict";
-  const R = window.RISTORANTE;
-  const $ = (s, e = document) => e.querySelector(s);
-  const $$ = (s, e = document) => [...e.querySelectorAll(s)];
-  const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const IMG = "assets/img/";
-
-  /* ---- ORARI: minuti da mezzanotte, gestione chiusura 24:00 -------------- */
-  const toMin = (t) => { const [h, m] = t.split(":").map(Number); return h * 60 + m; };
-  // JS getDay(): 0=Dom..6=Sab ; il nostro array parte da Lunedì
-  const dayIndex = () => (new Date().getDay() + 6) % 7;
-
-  function statoApertura() {
-    const now = new Date();
-    const mins = now.getHours() * 60 + now.getMinutes();
-    const oggi = R.orari[dayIndex()];
-    if (!oggi || !oggi.aperto) return { open: false, oggi };
-    const o = toMin(oggi.open), c = toMin(oggi.close); // close 24:00 => 1440
-    return { open: mins >= o && mins < c, oggi, o, c, mins };
-  }
-
-  function renderStatus() {
-    const s = statoApertura();
-    $$(".status").forEach(el => {
-      el.classList.toggle("is-open", s.open);
-      el.classList.toggle("is-closed", !s.open);
-      const label = el.querySelector(".status__label");
-      if (label) {
-        if (s.open) {
-          const closeTxt = s.oggi.close === "24:00" ? "mezzanotte" : s.oggi.close;
-          label.textContent = "Aperto ora · chiude alle " + closeTxt;
-        } else if (s.oggi && s.oggi.aperto && s.mins < s.o) {
-          label.textContent = "Chiuso · apre alle " + s.oggi.open;
-        } else {
-          label.textContent = "Chiuso ora";
-        }
-      }
-    });
-  }
-
-  /* ---- LINK helper ------------------------------------------------------- */
-  const waLink = (msg) => `https://wa.me/${R.contatti.whatsappNumero}?text=${encodeURIComponent(msg)}`;
-  const telLink = () => `tel:${R.contatti.telefonoLink.replace(/\s/g, "")}`;
-
-  /* ---- HERO -------------------------------------------------------------- */
-  function renderHero() {
-    $("#hero-name").innerHTML = `${esc(R.brand.nome)}<em>${esc(R.brand.cittaBrand)}</em>`;
-    $("#hero-cuisine").textContent = R.meta.cucina.join(" · ");
-    $("#hero-hook").textContent = R.brand.hook;
-    $("#hero-rating").innerHTML =
-      `<span class="star">★</span> <b>${esc(R.meta.rating)}</b> · ${esc(R.meta.recensioni)} recensioni · <b>${esc(R.meta.fasciaPrezzo)}</b>`;
-    $("#cta-prenota-hero").href = "#prenota";
-    $("#cta-chiama-hero").href = telLink();
-  }
-
-  /* ---- FACTS ------------------------------------------------------------- */
-  function renderFacts() {
-    $("#facts").innerHTML = R.meta.servizi.map(s => `<li>${esc(s)}</li>`).join("");
-  }
-
-  /* ---- SPECIALITA' ------------------------------------------------------- */
-  function renderSpecialita() {
-    $("#spec-scroller").innerHTML = R.specialita.map(d => `
+/* Il Posto Giusto di Aversa — engine (minified). Sorgente leggibile su richiesta. Modifica i contenuti in data.js */
+(function(){"use strict";const R=window.RISTORANTE;const $=(s,e=document)=>e.querySelector(s);const $$=(s,e=document)=>[...e.querySelectorAll(s)];const esc=(s)=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));const IMG="assets/img/";const toMin=(t)=>{const[h,m]=t.split(":").map(Number);return h*60+m;};const dayIndex=()=>(new Date().getDay()+6)%7;function statoApertura(){const now=new Date();const mins=now.getHours()*60+now.getMinutes();const oggi=R.orari[dayIndex()];if(!oggi||!oggi.aperto)return{open:false,oggi};const o=toMin(oggi.open),c=toMin(oggi.close);return{open:mins>=o&&mins<c,oggi,o,c,mins};}
+function renderStatus(){const s=statoApertura();$$(".status").forEach(el=>{el.classList.toggle("is-open",s.open);el.classList.toggle("is-closed",!s.open);const label=el.querySelector(".status__label");if(label){if(s.open){const closeTxt=s.oggi.close==="24:00"?"mezzanotte":s.oggi.close;label.textContent="Aperto ora · chiude alle "+closeTxt;}else if(s.oggi&&s.oggi.aperto&&s.mins<s.o){label.textContent="Chiuso · apre alle "+s.oggi.open;}else{label.textContent="Chiuso ora";}}});}
+const waLink=(msg)=>`https://wa.me/${R.contatti.whatsappNumero}?text=${encodeURIComponent(msg)}`;const telLink=()=>`tel:${R.contatti.telefonoLink.replace(/\s/g, "")}`;function renderHero(){$("#hero-name").innerHTML=`${esc(R.brand.nome)}<em>${esc(R.brand.cittaBrand)}</em>`;$("#hero-cuisine").textContent=R.meta.cucina.join(" · ");$("#hero-hook").textContent=R.brand.hook;$("#hero-rating").innerHTML=`<span class="star">★</span> <b>${esc(R.meta.rating)}</b> · ${esc(R.meta.recensioni)} recensioni · <b>${esc(R.meta.fasciaPrezzo)}</b>`;$("#cta-prenota-hero").href="#prenota";$("#cta-chiama-hero").href=telLink();}
+function renderFacts(){$("#facts").innerHTML=R.meta.servizi.map(s=>`<li>${esc(s)}</li>`).join("");}
+function renderSpecialita(){$("#spec-scroller").innerHTML=R.specialita.map(d=>`
       <article class="spec-card">
         <img src="${IMG}${d.img}" alt="${esc(d.nome)}" width="800" height="1000" loading="lazy" decoding="async">
         <div class="spec-card__body">
           <h3>${esc(d.nome)}</h3>
           <p>${esc(d.desc)}</p>
         </div>
-      </article>`).join("");
-  }
-
-  /* ---- MENU -------------------------------------------------------------- */
-  const tagLabel = { specialita: "Specialità", crudo: "Crudo", piccante: "Piccante", vegetariano: "Veg", "senza-glutine": "Senza glutine" };
-
-  function renderMenu() {
-    // nav ancore
-    $("#menu-nav-list").innerHTML = R.menu.map(c =>
-      `<li><a href="#cat-${c.id}" data-cat="${c.id}">${esc(c.nome)}</a></li>`).join("");
-
-    // categorie
-    $("#menu-cats").innerHTML = R.menu.map(c => `
+      </article>`).join("");}
+const tagLabel={specialita:"Specialità",crudo:"Crudo",piccante:"Piccante",vegetariano:"Veg","senza-glutine":"Senza glutine"};function renderMenu(){$("#menu-nav-list").innerHTML=R.menu.map(c=>`<li><a href="#cat-${c.id}" data-cat="${c.id}">${esc(c.nome)}</a></li>`).join("");$("#menu-cats").innerHTML=R.menu.map(c=>`
       <div class="menu-cat" id="cat-${c.id}">
         <div class="menu-cat__head">
           <h3>${esc(c.nome)}</h3>
           ${c.nota ? `<span class="menu-cat__nota">${esc(c.nota)}</span>` : ""}
         </div>
-        ${c.piatti.map(p => `
-          <div class="dish">
-            <div class="dish__name">
-              ${esc(p.nome)}
-              ${(p.tag || []).map(t => `<span class="tag tag--${t}">${esc(tagLabel[t] || t)}</span>`).join("")}
-            </div>
-            <div class="dish__price">${esc(p.prezzo)}${/\d$/.test(p.prezzo) || /\d,\d{2}$/.test(p.prezzo) ? " €" : ""}</div>
-            <p class="dish__desc">${esc(p.desc)}</p>
-            ${(p.allergeni && p.allergeni.length) ? `<div class="dish__allerg">${p.allergeni.map(a => `<span class="allg">${esc(a)}</span>`).join("")}</div>` : ""}
-          </div>`).join("")}
-      </div>`).join("");
-
-    // note + coperto
-    $("#menu-notes").innerHTML =
-      `<b>${esc(R.coperto)}.</b> ${esc(R.noteMenu)}`;
-
-    // menu fissi
-    if (R.menuFissi && R.menuFissi.length) {
-      $("#fixed-menus").innerHTML = R.menuFissi.map(m => `
+        ${c.piatti.map(p => `<article class="dish"><div class="dish__name">${esc(p.nome)}
+${(p.tag||[]).map(t=>`<span class="tag tag--${t}">${esc(tagLabel[t] || t)}</span>`).join("")}</div><div class="dish__price">${esc(p.prezzo)}${/\d$/.test(p.prezzo)||/\d,\d{2}$/.test(p.prezzo)?" €":""}</div><p class="dish__desc">${esc(p.desc)}</p>${(p.allergeni&&p.allergeni.length)?`<div class="dish__allerg">${p.allergeni.map(a => `<span class="allg">${esc(a)}</span>`).join("")}</div>`:""}</article>`).join("")}
+      </div>`).join("");$("#menu-notes").innerHTML=`<b>${esc(R.coperto)}.</b> ${esc(R.noteMenu)}`;if(R.menuFissi&&R.menuFissi.length){$("#fixed-menus").innerHTML=R.menuFissi.map(m=>`
         <div class="fixed-menu">
           <h4>${esc(m.nome)}</h4>
           <div class="price-badge">${esc(m.prezzo)}</div>
           <ul>${m.portate.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
-        </div>`).join("");
-    }
-  }
-
-  /* ---- GALLERY ----------------------------------------------------------- */
-  function renderGallery() {
-    $("#gallery").innerHTML = R.gallery.map(g => `
+        </div>`).join("");}}
+function renderGallery(){$("#gallery").innerHTML=R.gallery.map(g=>`
       <a href="${IMG}${g.img}" target="_blank" rel="noopener">
         <img src="${IMG}${g.img}" alt="${esc(g.alt)}" width="700" height="700" loading="lazy" decoding="async">
-      </a>`).join("");
-  }
-
-  /* ---- CHEF -------------------------------------------------------------- */
-  function renderChef() {
-    $("#chef-img").innerHTML =
-      `<img src="${IMG}${R.chef.foto}" alt="${esc(R.chef.nome)}, ${esc(R.chef.ruolo)}" width="900" height="1125" loading="lazy" decoding="async">`;
-    $("#chef-role").textContent = R.chef.ruolo;
-    $("#chef-name").textContent = R.chef.nome;
-    $("#chef-text").textContent = R.chef.testo;
-  }
-
-  /* ---- CONTATTI / MAPPA / ORARI ----------------------------------------- */
-  function renderContatti() {
-    $("#map-iframe").src = R.indirizzo.mapEmbed;
-    $("#addr").innerHTML =
-      `${esc(R.indirizzo.via)}<br>${esc(R.indirizzo.cap)} ${esc(R.indirizzo.citta)} (${esc(R.indirizzo.provincia)})`;
-    $("#addr-link").href = R.indirizzo.mapsUrl;
-    $("#tel-link").href = telLink();
-    $("#tel-link").textContent = R.contatti.telefono;
-    $("#wa-contact").href = waLink(R.contatti.whatsappMsg);
-    $("#wa-contact").textContent = "WhatsApp " + R.contatti.whatsapp;
-
-    // orari tabella
-    const di = dayIndex();
-    $("#hours-table").innerHTML = R.orari.map((o, i) => {
-      const val = o.aperto
-        ? `${o.open}–${o.close === "24:00" ? "00:00" : o.close}`
-        : "Chiuso";
-      return `<tr class="${i === di ? "today" : ""}"><td>${esc(o.giorno)}</td><td>${val}</td></tr>`;
-    }).join("");
-    if (R.orariNota) $("#hours-note").textContent = R.orariNota;
-
-    // socials
-    const soc = [];
-    if (R.social.instagram) soc.push(social("instagram", R.social.instagram));
-    if (R.social.facebook) soc.push(social("facebook", R.social.facebook));
-    if (R.social.tiktok) soc.push(social("tiktok", R.social.tiktok));
-    $("#socials").innerHTML = soc.join("");
-  }
-
-  function social(type, url) {
-    const icons = {
-      instagram: '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>',
-      facebook: '<path d="M14 8h2V5h-2c-1.7 0-3 1.3-3 3v2H9v3h2v6h3v-6h2l1-3h-3V8c0-.6.4-1 1-1z"/>',
-      tiktok: '<path d="M15 4c.5 2 2 3.2 4 3.4V10c-1.5 0-3-.5-4-1.3V15a5 5 0 1 1-5-5v2.6a2.4 2.4 0 1 0 2 2.4V4z"/>'
-    };
-    return `<a href="${url}" target="_blank" rel="noopener" aria-label="${type}">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">${icons[type]}</svg></a>`;
-  }
-
-  /* ---- DELIVERY / FOOTER / BOTTOM BAR ----------------------------------- */
-  function renderDeliveryFooterBar() {
-    const d = [];
-    if (R.delivery.glovo) d.push(`<a class="btn btn--ghost" href="${R.delivery.glovo}" target="_blank" rel="noopener">Ordina su Glovo</a>`);
-    if (R.delivery.alfonsino) d.push(`<a class="btn btn--ghost" href="${R.delivery.alfonsino}" target="_blank" rel="noopener">Ordina su Alfonsino</a>`);
-    $("#delivery-actions").innerHTML = d.join("");
-
-    // footer
-    $("#foot-name").textContent = R.brand.nomeEsteso;
-    $("#foot-addr").innerHTML = `${esc(R.indirizzo.via)}, ${esc(R.indirizzo.citta)} (${esc(R.indirizzo.provincia)}) · <a href="${telLink()}">${esc(R.contatti.telefono)}</a>`;
-    $("#foot-year").textContent = new Date().getFullYear();
-
-    // bottom bar
-    $("#bar-call").href = telLink();
-    $("#bar-wa").href = waLink(R.contatti.whatsappMsg);
-    $("#bar-book").href = "#prenota";
-  }
-
-  /* ---- PRENOTAZIONE ------------------------------------------------------ */
-  function setupBooking() {
-    // opzioni persone e orario
-    const pers = $("#f-persone"), ora = $("#f-orario");
-    for (let i = 1; i <= R.prenotazione.maxPersone; i++)
-      pers.insertAdjacentHTML("beforeend", `<option value="${i}">${i} ${i === 1 ? "persona" : "persone"}</option>`);
-    R.prenotazione.orariSelezionabili.forEach(t =>
-      ora.insertAdjacentHTML("beforeend", `<option value="${t}">${t}</option>`));
-
-    // data minima = oggi
-    const dt = $("#f-data");
-    const t = new Date(); dt.min = t.toISOString().split("T")[0];
-
-    $("#book-form").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const nome = $("#f-nome").value.trim();
-      const tel = $("#f-tel").value.trim();
-      const np = pers.value, data = dt.value, orario = ora.value;
-      const note = $("#f-note").value.trim();
-      const msgEl = $("#form-msg");
-
-      if (!nome || nome.length < 2) return fail(msgEl, "Inserisci il tuo nome.");
-      if (!/^[\d\s+().-]{6,}$/.test(tel)) return fail(msgEl, "Inserisci un numero di telefono valido.");
-      if (!np) return fail(msgEl, "Seleziona per quante persone.");
-      if (!data) return fail(msgEl, "Scegli una data.");
-      if (!orario) return fail(msgEl, "Scegli un orario.");
-
-      const dObj = new Date(data);
-      const dataFmt = dObj.toLocaleDateString("it-IT", { weekday: "long", day: "numeric", month: "long" });
-      const testo =
-        `Ciao! Vorrei prenotare un tavolo da Il Posto Giusto di Aversa.\n` +
-        `• Nome: ${nome}\n• Persone: ${np}\n• Data: ${dataFmt}\n• Orario: ${orario}\n• Tel: ${tel}` +
-        (note ? `\n• Note: ${note}` : "");
-
-      // Se configurato Formspree -> invia anche via email in background
-      if (R.prenotazione.formspreeId) {
-        fetch(`https://formspree.io/f/${R.prenotazione.formspreeId}`, {
-          method: "POST", headers: { "Accept": "application/json" },
-          body: new FormData(e.target)
-        }).catch(() => { });
-      }
-      ok(msgEl, "Ti apriamo WhatsApp per confermare la richiesta…");
-      window.location.href = waLink(testo);
-    });
-
-    function fail(el, m) { el.textContent = m; el.className = "form-msg err"; }
-    function ok(el, m) { el.textContent = m; el.className = "form-msg ok"; }
-  }
-
-  /* ---- NAV mobile + scroll header + scrollspy --------------------------- */
-  function setupNav() {
-    const header = $(".site-header"), burger = $("#burger"),
-      menu = $("#mobile-menu"), scrim = $("#scrim");
-    const closeM = () => { menu.classList.remove("open"); scrim.classList.remove("open"); burger.setAttribute("aria-expanded", "false"); };
-    burger.addEventListener("click", () => {
-      const open = menu.classList.toggle("open");
-      scrim.classList.toggle("open", open);
-      burger.setAttribute("aria-expanded", open ? "true" : "false");
-    });
-    scrim.addEventListener("click", closeM);
-    $$("#mobile-menu a").forEach(a => a.addEventListener("click", closeM));
-
-    const onScroll = () => header.classList.toggle("scrolled", window.scrollY > 40);
-    onScroll(); window.addEventListener("scroll", onScroll, { passive: true });
-
-    // scrollspy sul menu
-    const links = $$("#menu-nav-list a");
-    const cats = links.map(a => document.getElementById(a.dataset.cat && ("cat-" + a.dataset.cat)));
-    if ("IntersectionObserver" in window) {
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(en => {
-          if (en.isIntersecting) {
-            const id = en.target.id.replace("cat-", "");
-            links.forEach(l => l.classList.toggle("active", l.dataset.cat === id));
-          }
-        });
-      }, { rootMargin: "-140px 0px -70% 0px" });
-      cats.forEach(c => c && io.observe(c));
-    }
-  }
-
-  /* ---- JSON-LD (schema Restaurant) -------------------------------------- */
-  function injectSchema() {
-    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    const oh = R.orari.map((o, i) => o.aperto ? {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": days[i],
-      "opens": o.open,
-      "closes": o.close === "24:00" ? "23:59" : o.close
-    } : null).filter(Boolean);
-
-    const data = {
-      "@context": "https://schema.org",
-      "@type": "Restaurant",
-      "name": R.brand.nomeEsteso,
-      "image": R.seo.url + R.seo.ogImage,
-      "url": R.seo.url,
-      "telephone": R.contatti.telefonoLink,
-      "priceRange": R.meta.priceRangeSchema,
-      "servesCuisine": R.meta.cucina,
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": R.indirizzo.via,
-        "postalCode": R.indirizzo.cap,
-        "addressLocality": R.indirizzo.citta,
-        "addressRegion": R.indirizzo.provincia,
-        "addressCountry": "IT"
-      },
-      "geo": { "@type": "GeoCoordinates", "latitude": R.indirizzo.lat, "longitude": R.indirizzo.lng },
-      "openingHoursSpecification": oh,
-      "acceptsReservations": "True",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": R.meta.rating.replace(",", "."),
-        "reviewCount": R.meta.recensioni.replace(/\./g, "")
-      },
-      "sameAs": [R.social.instagram, R.social.facebook, R.social.tiktok].filter(Boolean),
-      "hasMenu": R.seo.url + "#menu"
-    };
-    const s = document.createElement("script");
-    s.type = "application/ld+json";
-    s.textContent = JSON.stringify(data);
-    document.head.appendChild(s);
-  }
-
-  /* ---- META (title/description dinamici) -------------------------------- */
-  function injectMeta() {
-    document.title = R.seo.title;
-    const set = (sel, attr, val) => { const el = $(sel); if (el) el.setAttribute(attr, val); };
-    set('meta[name="description"]', "content", R.seo.description);
-    set('meta[property="og:title"]', "content", R.seo.title);
-    set('meta[property="og:description"]', "content", R.seo.description);
-    set('meta[property="og:url"]', "content", R.seo.url);
-    set('meta[property="og:image"]', "content", R.seo.url + R.seo.ogImage);
-    set('meta[name="twitter:title"]', "content", R.seo.title);
-    set('meta[name="twitter:description"]', "content", R.seo.description);
-    set('meta[name="twitter:image"]', "content", R.seo.url + R.seo.ogImage);
-    const canon = $('link[rel="canonical"]'); if (canon) canon.href = R.seo.url;
-  }
-
-  /* ---- INIT -------------------------------------------------------------- */
-  document.addEventListener("DOMContentLoaded", () => {
-    if (!R) { console.error("data.js non caricato"); return; }
-    injectMeta();
-    renderHero(); renderFacts(); renderSpecialita(); renderMenu();
-    renderGallery(); renderChef(); renderContatti(); renderDeliveryFooterBar();
-    setupBooking(); setupNav(); renderStatus(); injectSchema();
-    setInterval(renderStatus, 60000); // aggiorna "aperto/chiuso" ogni minuto
-  });
-})();
+      </a>`).join("");}
+function renderChef(){$("#chef-img").innerHTML=`<img src="${IMG}${R.chef.foto}" alt="${esc(R.chef.nome)}, ${esc(R.chef.ruolo)}" width="900" height="1125" loading="lazy" decoding="async">`;$("#chef-role").textContent=R.chef.ruolo;$("#chef-name").textContent=R.chef.nome;$("#chef-text").textContent=R.chef.testo;}
+function renderContatti(){$("#map-iframe").src=R.indirizzo.mapEmbed;$("#addr").innerHTML=`${esc(R.indirizzo.via)}<br>${esc(R.indirizzo.cap)} ${esc(R.indirizzo.citta)} (${esc(R.indirizzo.provincia)})`;$("#addr-link").href=R.indirizzo.mapsUrl;$("#tel-link").href=telLink();$("#tel-link").textContent=R.contatti.telefono;$("#wa-contact").href=waLink(R.contatti.whatsappMsg);$("#wa-contact").textContent="WhatsApp "+R.contatti.whatsapp;const di=dayIndex();$("#hours-table").innerHTML=R.orari.map((o,i)=>{const val=o.aperto?`${o.open}–${o.close === "24:00" ? "00:00" : o.close}`:"Chiuso";return`<tr class="${i === di ? "today" : ""}"><td>${esc(o.giorno)}</td><td>${val}</td></tr>`;}).join("");if(R.orariNota)$("#hours-note").textContent=R.orariNota;const soc=[];if(R.social.instagram)soc.push(social("instagram",R.social.instagram));if(R.social.facebook)soc.push(social("facebook",R.social.facebook));if(R.social.tiktok)soc.push(social("tiktok",R.social.tiktok));$("#socials").innerHTML=soc.join("");}
+function social(type,url){const icons={instagram:'<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>',facebook:'<path d="M14 8h2V5h-2c-1.7 0-3 1.3-3 3v2H9v3h2v6h3v-6h2l1-3h-3V8c0-.6.4-1 1-1z"/>',tiktok:'<path d="M15 4c.5 2 2 3.2 4 3.4V10c-1.5 0-3-.5-4-1.3V15a5 5 0 1 1-5-5v2.6a2.4 2.4 0 1 0 2 2.4V4z"/>'};return`<a href="${url}" target="_blank" rel="noopener" aria-label="${type}">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">${icons[type]}</svg></a>`;}
+function renderDeliveryFooterBar(){const d=[];if(R.delivery.glovo)d.push(`<a class="btn btn--ghost" href="${R.delivery.glovo}" target="_blank" rel="noopener">Ordina su Glovo</a>`);if(R.delivery.alfonsino)d.push(`<a class="btn btn--ghost" href="${R.delivery.alfonsino}" target="_blank" rel="noopener">Ordina su Alfonsino</a>`);$("#delivery-actions").innerHTML=d.join("");$("#foot-name").textContent=R.brand.nomeEsteso;$("#foot-addr").innerHTML=`${esc(R.indirizzo.via)}, ${esc(R.indirizzo.citta)} (${esc(R.indirizzo.provincia)}) · <a href="${telLink()}">${esc(R.contatti.telefono)}</a>`;$("#foot-year").textContent=new Date().getFullYear();$("#bar-call").href=telLink();$("#bar-wa").href=waLink(R.contatti.whatsappMsg);$("#bar-book").href="#prenota";}
+function setupBooking(){const pers=$("#f-persone"),ora=$("#f-orario");for(let i=1;i<=R.prenotazione.maxPersone;i++)
+pers.insertAdjacentHTML("beforeend",`<option value="${i}">${i} ${i === 1 ? "persona" : "persone"}</option>`);R.prenotazione.orariSelezionabili.forEach(t=>ora.insertAdjacentHTML("beforeend",`<option value="${t}">${t}</option>`));const dt=$("#f-data");const t=new Date();dt.min=t.toISOString().split("T")[0];$("#book-form").addEventListener("submit",function(e){e.preventDefault();const nome=$("#f-nome").value.trim();const tel=$("#f-tel").value.trim();const np=pers.value,data=dt.value,orario=ora.value;const note=$("#f-note").value.trim();const msgEl=$("#form-msg");if(!nome||nome.length<2)return fail(msgEl,"Inserisci il tuo nome.");if(!/^[\d\s+().-]{6,}$/.test(tel))return fail(msgEl,"Inserisci un numero di telefono valido.");if(!np)return fail(msgEl,"Seleziona per quante persone.");if(!data)return fail(msgEl,"Scegli una data.");if(!orario)return fail(msgEl,"Scegli un orario.");const dObj=new Date(data);const dataFmt=dObj.toLocaleDateString("it-IT",{weekday:"long",day:"numeric",month:"long"});const testo=`Ciao! Vorrei prenotare un tavolo da Il Posto Giusto di Aversa.\n`+`• Nome: ${nome}\n• Persone: ${np}\n• Data: ${dataFmt}\n• Orario: ${orario}\n• Tel: ${tel}`+
+(note?`\n• Note: ${note}`:"");if(R.prenotazione.formspreeId){fetch(`https://formspree.io/f/${R.prenotazione.formspreeId}`,{method:"POST",headers:{"Accept":"application/json"},body:new FormData(e.target)}).catch(()=>{});}
+ok(msgEl,"Ti apriamo WhatsApp per confermare la richiesta…");window.location.href=waLink(testo);});function fail(el,m){el.textContent=m;el.className="form-msg err";}
+function ok(el,m){el.textContent=m;el.className="form-msg ok";}}
+function setupNav(){const header=$(".site-header"),burger=$("#burger"),menu=$("#mobile-menu"),scrim=$("#scrim");const closeM=()=>{menu.classList.remove("open");scrim.classList.remove("open");burger.setAttribute("aria-expanded","false");};burger.addEventListener("click",()=>{const open=menu.classList.toggle("open");scrim.classList.toggle("open",open);burger.setAttribute("aria-expanded",open?"true":"false");});scrim.addEventListener("click",closeM);$$("#mobile-menu a").forEach(a=>a.addEventListener("click",closeM));const onScroll=()=>header.classList.toggle("scrolled",window.scrollY>40);onScroll();window.addEventListener("scroll",onScroll,{passive:true});const links=$$("#menu-nav-list a");const cats=links.map(a=>document.getElementById(a.dataset.cat&&("cat-"+a.dataset.cat)));if("IntersectionObserver"in window){const io=new IntersectionObserver((entries)=>{entries.forEach(en=>{if(en.isIntersecting){const id=en.target.id.replace("cat-","");links.forEach(l=>l.classList.toggle("active",l.dataset.cat===id));}});},{rootMargin:"-140px 0px -70% 0px"});cats.forEach(c=>c&&io.observe(c));}}
+document.addEventListener("DOMContentLoaded",()=>{if(!R){console.error("data.js non caricato");return;}
+renderHero();renderFacts();renderSpecialita();renderMenu();renderGallery();renderChef();renderContatti();renderDeliveryFooterBar();setupBooking();setupNav();renderStatus();setInterval(renderStatus,60000);});})();
