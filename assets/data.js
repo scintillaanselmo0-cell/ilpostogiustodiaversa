@@ -125,8 +125,6 @@ const RISTORANTE = {
       desc: "Tonno tagliato al coltello, agrumi e olio del territorio." },
     { nome: "Polpo & patate di Avezzano", img: "polpo.webp",
       desc: "Il piatto che i clienti nominano per primo. Polpo scottato su crema." },
-    { nome: "Cestino con sautè", img: "banco-astice.webp",
-      desc: "Il nostro cestino di pane con sautè di scampi e gamberi." },
     { nome: "Tartare con caviale", img: "tartare-gambero.webp",
       desc: "Crudo di crostacei, mantecato e finito con caviale." },
   ],
