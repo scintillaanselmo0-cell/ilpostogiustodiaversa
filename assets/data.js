@@ -49,8 +49,15 @@ const RISTORANTE = {
     lng: 14.1993,   // [DA VERIFICARE] ricavato dal Plus Code
     // link "Indicazioni" (apre Google Maps):
     mapsUrl: "https://www.google.com/maps/search/?api=1&query=Il+Posto+Giusto+di+Aversa+Via+Aldo+Moro+73+Aversa",
-    // iframe mappa (nessuna API key richiesta):
-    mapEmbed: "https://maps.google.com/maps?q=Il%20Posto%20Giusto%20di%20Aversa%20Via%20Aldo%20Moro%2073%20Aversa&z=16&output=embed",
+    // iframe TOUR INTERNO 360° (interattivo, nessuna API key).
+    // Per fissarlo ESATTAMENTE sul vostro tour: su Google Maps aprite il tour
+    // interno → Condividi → "Incorpora una mappa" → copiate l'URL dentro src="..."
+    // e incollatelo qui sotto al posto di questo.
+    mapEmbed: "https://maps.google.com/maps?layer=c&cbll=40.9611,14.1993&cbp=11,0,0,0,0&output=svembed",
+    // mappa classica con pin (fallback / "Indicazioni")
+    mapEmbedPlan: "https://maps.google.com/maps?q=Il%20Posto%20Giusto%20di%20Aversa%20Via%20Aldo%20Moro%2073%20Aversa&z=16&output=embed",
+    // link al tour interno condiviso dal titolare
+    tourUrl: "https://maps.app.goo.gl/dFq9pTDNdBvRhhzs5",
   },
 
   /* --- SOCIAL & DELIVERY -------------------------------------------------- */
@@ -60,7 +67,7 @@ const RISTORANTE = {
     tiktok: "", // opzionale
   },
   delivery: {
-    glovo: "https://glovoapp.com/it/it/napoli/il-posto-giusto-nap",
+    glovo: "https://glovoapp.com/it/it/napoli/il-posto-giusto-nap?utm_source=google&utm_medium=organic&utm_campaign=google_reserve_place_order_action",
     alfonsino: "https://app.alfonsino.delivery/aversa/order/menu/savaris-il-posto-giusto-di-aversa",
   },
 
@@ -70,8 +77,8 @@ const RISTORANTE = {
     recensioni: "2.861",
     fasciaPrezzo: "20–60 € a persona",
     priceRangeSchema: "€€€",
-    cucina: ["Pesce", "Mediterranea", "Pizzeria", "Crudi di mare"],
-    servizi: ["Tavoli all'aperto", "Sala privata", "Menu bambini", "Asporto", "Consegna a domicilio", "Accessibile"],
+    cucina: ["Ristorante", "Crudité di mare", "Eventi"],
+    servizi: ["Sala privata", "Menu bambini", "Asporto", "Consegna a domicilio", "Accessibile"],
   },
   coperto: "Coperto 2,00 €",
   noteMenu: "Alcuni prodotti, in mancanza di fresco, possono essere sostituiti da ottimi surgelati. La pizza è disponibile anche con impasto ai cereali.",
@@ -243,7 +250,7 @@ const RISTORANTE = {
   seo: {
     title: "Ristorante di Pesce & Pizzeria ad Aversa | Il Posto Giusto", // rispecchia <title> statico in index.html
     description: "Ristorante di pesce ad Aversa (CE): crudi, tartare, polpo, pizza. Pescato fresco al banco, sala elegante, tavoli all'aperto. Prenota: 081 424 9489.",
-    url: "https://ilpostogiustodiaversa.it/", // [DA VERIFICARE] metta l'URL definitivo
+    url: "https://www.ilpostogiustodiaversa.com/", // [DA VERIFICARE] metta l'URL definitivo
     ogImage: "assets/img/og.jpg",
   },
 };
